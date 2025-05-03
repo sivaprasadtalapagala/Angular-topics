@@ -50,6 +50,10 @@ export class DataBindingComponent implements OnInit {
   helloProperty ="hello Value";
   isDisabled:boolean =true;
 
+  onInputChange(rani:any) {
+    console.log("data receive from input field eventbinding=",rani.target.value)
+  }
+
   //event Binding
 
   evntBindProperty = "data from ts file"
