@@ -1,0 +1,59 @@
+
+<p>data from data binding component html</p>
+<h2>Students List</h2>
+<div *ngFor="let student of studentsList">
+    <p>{{student.name}}</p>
+</div>
+
+<table>
+   <thead>
+    <tr>
+        <th>Name</th>
+        <th>Class</th>
+        <th>Age</th>
+        <th>Gender</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr *ngFor="let student of studentsList">
+        <td>{{student.name}}</td>
+        <td>{{student.class}}</td>
+        <td>{{student.age}}</td>
+        <td>{{student.gender}}</td>
+    </tr>
+   </tbody>
+</table>
+
+<p>============================</p>
+
+<!-- interpolation -->
+<p>{{studentName}}</p> 
+
+<!-- property Binding  -->
+<p [innerText]="helloProperty"></p>
+<button [disabled]="isDisabled">click ME</button>
+
+
+<!-- event binding  -->
+ <!-- <input type="text" > -->
+  <p>==</p>
+  <button (click)="onClick()">enableButton</button>
+  <p>===</p>
+  <button (click)="transerMethod(true)">transfer</button>
+
+  <p>{{evntBindProperty}}</p>
+
+
+  <!-- two way data binding  -->
+   <input type="text" [(ngModel)]="twoWayValue">
+
+   <h4>{{twoWayValue}}</h4>
+
+   <p>data Binding end</p>
+
+  
+
+
+
+
+
