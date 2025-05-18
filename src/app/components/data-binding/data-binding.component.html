@@ -2,7 +2,7 @@
 <p>data from data binding component html</p>
 <h2>Students List</h2>
 <div *ngFor="let student of studentsList">
-    <p>{{student.name}}</p>
+    <p *ngIf="student.age >= 22">{{student.name}}</p>
 </div>
 
 <table>
