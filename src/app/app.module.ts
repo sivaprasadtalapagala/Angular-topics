@@ -5,11 +5,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataBindingComponent } from './components/data-binding/data-binding.component';
 import { FormsModule } from '@angular/forms';
+import { ParentComponent } from './decorators/parent/parent.component';
+import { ChildComponent } from './decorators/child/child.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DataBindingComponent
+    DataBindingComponent,
+    ParentComponent,
+    ChildComponent
   ],
   imports: [
     BrowserModule,
