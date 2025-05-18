@@ -13,4 +13,8 @@ export class ParentComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  messageFromChild(message:any) {
+console.log("recied from child:",message)
+  }
+
 }

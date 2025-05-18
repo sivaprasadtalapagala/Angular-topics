@@ -1,2 +1,2 @@
-<app-child [childVariable]="sendToParent"></app-child>
+<app-child [childVariable]="sendToParent" (messageEvent)="messageFromChild($event)"></app-child>
  <!-- <p>{{sendToParent}}</p> -->
