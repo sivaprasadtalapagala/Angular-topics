@@ -14,7 +14,12 @@ export class CompAComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.fdbfnedj = this.datatransservice.getData();
+    // this.fdbfnedj = this.datatransservice.getData();
+    this.datatransservice.currentData.subscribe(data => {
+      if(data) {
+        this.fdbfnedj = data;
+      }
+    })
   }
 
 }

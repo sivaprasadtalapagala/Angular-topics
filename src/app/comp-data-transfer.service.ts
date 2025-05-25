@@ -6,13 +6,15 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class CompDataTransferService {
 
-  // private dataSource = new BehaviorSubject<any>(null);
-  private dataSource = 'prasad';
+  private dataSource = new BehaviorSubject<any>(null);
+  currentData = this.dataSource.asObservable();
+  // private dataSource = 'prasad';
   constructor() { }
 
   setData(data:any) {
-    this.dataSource = data;
-    console.log("service file",this.dataSource)
+    // this.dataSource = data;
+    // console.log("service file",this.dataSource)
+    this.dataSource.next(data);
   }
 
   getData() {
