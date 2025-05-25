@@ -7,13 +7,17 @@ import { DataBindingComponent } from './components/data-binding/data-binding.com
 import { FormsModule } from '@angular/forms';
 import { ParentComponent } from './decorators/parent/parent.component';
 import { ChildComponent } from './decorators/child/child.component';
+import { CompAComponent } from './comp-a/comp-a.component';
+import { CompBComponent } from './comp-b/comp-b.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DataBindingComponent,
     ParentComponent,
-    ChildComponent
+    ChildComponent,
+    CompAComponent,
+    CompBComponent
   ],
   imports: [
     BrowserModule,

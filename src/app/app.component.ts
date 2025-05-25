@@ -26,7 +26,7 @@ export class AppComponent {
   }
 
   getData(){
-    console.log("getData_data")
+    // console.log("getData_data")
   }
 
 
