@@ -9,6 +9,10 @@ import { ParentComponent } from './decorators/parent/parent.component';
 import { ChildComponent } from './decorators/child/child.component';
 import { CompAComponent } from './comp-a/comp-a.component';
 import { CompBComponent } from './comp-b/comp-b.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { HomeComponent } from './home/home.component';
+import { UserCardComponent } from './user/user-card/user-card.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +21,11 @@ import { CompBComponent } from './comp-b/comp-b.component';
     ParentComponent,
     ChildComponent,
     CompAComponent,
-    CompBComponent
+    CompBComponent,
+    HeaderComponent,
+    FooterComponent,
+    HomeComponent,
+    UserCardComponent
   ],
   imports: [
     BrowserModule,

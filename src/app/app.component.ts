@@ -7,7 +7,7 @@ import { CommonServiceService } from './services/common-service.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-topics';
+  title = 'using interpolation';
   username = "siva"
   
 

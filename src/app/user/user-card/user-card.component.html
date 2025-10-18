@@ -1,0 +1,14 @@
+<!-- <p>user-card works!</p> -->
+
+<div>
+    <img [src]="user_profile" alt="">
+    <p>Name: {{userName}}</p>
+    <p>Age: {{user_age}}</p>
+    <p>Comments:{{comments}}</p>
+    <button (click)="onUserProfileEdit()">Edit Detailss</button>
+    <button (click)="onUserProfileDeleted()">Delete Detailss</button>
+    <div>
+        Update your comment from here:
+        <input type="text" [(ngModel)]="comments">
+    </div>
+</div>
