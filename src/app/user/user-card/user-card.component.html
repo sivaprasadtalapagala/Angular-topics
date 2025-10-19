@@ -1,9 +1,14 @@
 <!-- <p>user-card works!</p> -->
 
 <div *ngFor = "let user of customer_details" class="card_border">
-    <div *ngIf = "user.user_age > 55">
-        <img [src]="user.user_profile" alt="">
-    <p>Name: {{user.userName}}</p>
+    <div *ngIf = "user.user_age > 55" [ngClass]="{'state_politicial_bg_color':user.type == 'state','central_politicial_bg_color':user.type == 'central','international_politicial_bg_color':user.type !== 'state' && user.type !== 'central'}">
+    <div [ngSwitch]="user.type">
+        <h2 *ngSwitchCase="'state'">State Politician</h2>
+         <h2 *ngSwitchCase="'central'">Central Politician</h2>
+          <h2 *ngSwitchDefault>International Politician</h2>
+    </div>
+    <img [src]="user.user_profile" alt="">
+    <p [ngStyle]="{'color':'white', 'font-weight':'30px'}">Name: {{user.userName}}</p>
     <p>Age: {{user.user_age}}</p>
     <p>Comments:{{comments}}</p>
     <button (click)="onUserProfileEdit()">Edit Detailss</button>
@@ -14,3 +19,7 @@
     </div>
     </div>
 </div>
+
+
+
+<!-- <p [ngStyle]="'color':'white', 'font-size':'30px'">hello from ngstyle</p> -->
