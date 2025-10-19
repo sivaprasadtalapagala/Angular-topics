@@ -1,0 +1,14 @@
+<p>counter works!</p>
+<!-- <input type="number" [(ngModel)= "counter"> -->
+ <input type="text" [(ngModel)]="counter">
+ <button (click)="onIncreament()">+</button>
+ <button (click)="onDecrement()">-</button>
+
+
+
+<br>
+<hr>
+ <input type="text" name="" id="" #inputRef>
+ <br><br>
+ <button (click)="onSubmit(inputRef.value)">getValue</button>
+ <p>submited value:{{inputValue}}</p>
