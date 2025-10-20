@@ -1,2 +1,6 @@
-<app-child [childVariable]="sendToParent" (messageEvent)="messageFromChild($event)"></app-child>
+<!-- <app-child [childVariable]="sendToParent" (messageEvent)="messageFromChild($event)"></app-child> -->
  <!-- <p>{{sendToParent}}</p> -->
+
+ <app-child [childProperty]="parentVariable" (variableTosendToParent)="onchilddataReceived($event)"></app-child>
+
+ <p>data from child on click: {{output_eevent_from_child}}</p>

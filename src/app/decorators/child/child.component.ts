@@ -9,7 +9,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class ChildComponent implements OnInit {
   @Input() childVariable:any;
   // @Output() outputVariable = new EventEmitter<string>()
-  @Output() messageEvent = new EventEmitter<string>();
+  // @Output() messageEvent = new EventEmitter<string>();
+
+
+  @Input() childProperty!: string;
 
   constructor() { }
 
@@ -17,7 +20,15 @@ export class ChildComponent implements OnInit {
   }
 
   onClick() {
-    this.messageEvent.emit('hello from child');
+    // this.messageEvent.emit('hello from child');
+  }
+
+  // @Output() new EventEmitter<string>();
+  @Output() variableTosendToParent = new EventEmitter<string>();
+  
+
+  sendToParent() {
+    this.variableTosendToParent.emit("i am from child====")
   }
 
 }
