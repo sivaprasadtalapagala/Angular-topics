@@ -1,0 +1,13 @@
+<!-- import ScrollerModule inside AppModule then use selector shared-scroller -->
+<app-slider
+  [items]="amounts"
+  [initialIndex]="1"
+  [visibleCount]="3"
+  [minItemWidth]="120"
+  [hideScrollbar]="true"
+  (indexChange)="onIndexChange($event)"
+  (itemChange)="onItemChange($event)"
+></app-slider>
+
+<!-- reference the uploaded image if helpful -->
+<!-- <img src="/mnt/data/ab53b147-8933-416a-802f-1ea928b54a73.png" alt="reference" style="display:none;"> -->

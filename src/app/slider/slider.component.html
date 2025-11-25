@@ -1,31 +1,33 @@
-<div class="amount-slider">
-  <div #scrollWrap class="amount-slider__scroll">
+<div class="scroller-root">
+  <div #scrollWrap
+       class="scroller-scroll"
+       [class.hide-scrollbar]="hideScrollbar"
+       tabindex="0"
+       aria-label="horizontal scroller">
+
     <div #trackWrap
-         class="amount-slider__track-wrap"
+         class="scroller-track"
          [style.width.px]="trackWidth"
          (pointerdown)="onPointerDown($event)"
          (pointermove)="onPointerMove($event)"
          (pointerup)="onPointerUp($event)"
          (click)="onTrackClick($event)">
 
-      <!-- custom track line -->
-      <div class="amount-slider__track-line"></div>
+      <div class="scroller-track-line"></div>
+      <div class="scroller-track-progress"
+           [style.width.px]="(selectedIndex * itemWidth) + (itemWidth / 2)"></div>
 
-      <!-- bubbles positioned using left px (index * itemWidth) -->
-      <div class="amount-slider__bubbles">
-        <div
-          *ngFor="let amt of amounts; let i = index"
-          class="amount-slider__bubble"
-          [class.amount-slider__bubble--active]="i === selectedIndex"
-          [style.left.px]="i * itemWidth"
-          [style.width.px]="itemWidth"
-        >
-          <div class="amount-slider__label">{{ amt | number:'1.0-0' }}</div>
+      <div class="scroller-items">
+        <div *ngFor="let it of items; let i = index"
+             class="scroller-item"
+             [class.scroller-item--active]="i === selectedIndex"
+             [style.left.px]="i * itemWidth"
+             [style.width.px]="itemWidth">
+          <div class="scroller-item__label">{{ labelFor(it) }}</div>
         </div>
       </div>
 
-      <!-- custom thumb (rendered exactly at selected index) -->
-      <div class="amount-slider__thumb" [style.left.px]="selectedIndex * itemWidth + (itemWidth / 2)"></div>
+      <div class="scroller-thumb" [style.left.px]="selectedIndex * itemWidth + (itemWidth / 2)"></div>
     </div>
   </div>
 </div>

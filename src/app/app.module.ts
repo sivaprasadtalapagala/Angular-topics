@@ -21,6 +21,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SliderComponent } from './slider/slider.component';
 import { MatSliderModule } from '@angular/material/slider';
+import { ChildSliderComponent } from './child-slider/child-slider.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MatSliderModule } from '@angular/material/slider';
     UserCardComponent,
     CounterComponent,
     UserListComponent,
-    SliderComponent
+    SliderComponent,
+    ChildSliderComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +49,7 @@ import { MatSliderModule } from '@angular/material/slider';
     BrowserAnimationsModule,
     MatSliderModule   
   ],
+   exports: [SliderComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -1,50 +1,67 @@
-import { Component, HostListener, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
+
+export type ScrollerItem = { value: number | string; label?: string };
 
 @Component({
   selector: 'app-slider',
   templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.scss']
+  styleUrls: ['./slider.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SliderComponent implements AfterViewInit {
-  @ViewChild('trackWrap', { static: true }) trackWrap!: ElementRef<HTMLDivElement>;
+   @ViewChild('trackWrap', { static: true }) trackWrap!: ElementRef<HTMLDivElement>;
   @ViewChild('scrollWrap', { static: true }) scrollWrap!: ElementRef<HTMLDivElement>;
 
-  // your amounts
-  amounts = [10, 20, 30, 50000, 75000, 250000];
-  selectedIndex = 1;
+  @Input() items: Array<number | string | { value: any; label?: string }> = [];
+  @Input() initialIndex = 0;
+  @Input() visibleCount = 3;
+  @Input() minItemWidth = 120;
+  @Input() hideScrollbar = true;
+  @Input() autoCenterOnSelect = true;
+  @Input() snapOnPointer = true;
+  @Input() keyboard = true;
 
-  // layout computed
-  itemWidth = 0;   // px for each item
-  trackWidth = 0;  // total px
+  @Output() indexChange = new EventEmitter<number>();
+  @Output() itemChange = new EventEmitter<any>();
 
-  // dragging state
+  selectedIndex = 0;
+  itemWidth = 0;
+  trackWidth = 0;
   private dragging = false;
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   ngAfterViewInit() {
+    this.selectedIndex = this.clampIndex(this.initialIndex);
     this.calcWidths();
-    // ensure initial scroll centers selected
     setTimeout(() => this.scrollToIndexIfNeeded(this.selectedIndex, false), 0);
   }
 
-  @HostListener('window:resize')
-  onResize() { this.calcWidths(); }
+  @HostListener('window:resize') onResize() { this.calcWidths(); }
 
   private calcWidths() {
-    const minItem = 120;
-    const w = Math.floor(window.innerWidth / 3);
-    this.itemWidth = Math.max(minItem, w);
-    this.trackWidth = this.amounts.length * this.itemWidth;
-    // ensure CSS updates — Angular binding will handle it
+    const w = Math.floor(window.innerWidth / Math.max(1, this.visibleCount));
+    this.itemWidth = Math.max(this.minItemWidth, w);
+    this.trackWidth = (this.items?.length || 0) * this.itemWidth;
+    this.cdr.markForCheck();
   }
 
-  get selectedAmount(): number { return this.amounts[this.selectedIndex]; }
-
-  // pointer down on track -> start dragging and set capture
   onPointerDown(ev: PointerEvent) {
+    if (!this.snapOnPointer) return;
     const track = this.trackWrap.nativeElement;
     track.setPointerCapture(ev.pointerId);
     this.dragging = true;
-    // compute immediately new index
     this.setIndexFromPointer(ev.clientX);
   }
 
@@ -54,38 +71,50 @@ export class SliderComponent implements AfterViewInit {
   }
 
   onPointerUp(ev: PointerEvent) {
-    const track = this.trackWrap.nativeElement;
-    try { track.releasePointerCapture(ev.pointerId); } catch { /* ignore */ }
+    try { this.trackWrap.nativeElement.releasePointerCapture(ev.pointerId); } catch {}
     this.dragging = false;
-    // ensure visible
-    this.scrollToIndexIfNeeded(this.selectedIndex, true);
+    if (this.autoCenterOnSelect) this.scrollToIndexIfNeeded(this.selectedIndex, true);
   }
 
-  // also support clicks (pointerdown already sets index) — but handle tap without move
   onTrackClick(ev: MouseEvent) {
-    // calculate index from click
     this.setIndexFromPointer(ev.clientX);
-    this.scrollToIndexIfNeeded(this.selectedIndex, true);
+    if (this.autoCenterOnSelect) this.scrollToIndexIfNeeded(this.selectedIndex, true);
   }
 
-  // convert clientX to nearest index considering current scrollLeft and itemWidth
   private setIndexFromPointer(clientX: number) {
     const wrapper = this.scrollWrap.nativeElement;
     const trackRect = this.trackWrap.nativeElement.getBoundingClientRect();
-
-    // x inside the wide track (0..trackWidth)
     const localX = (clientX - trackRect.left) + wrapper.scrollLeft;
-    let rawIndex = localX / this.itemWidth;
-    let nearest = Math.round(rawIndex);
-    nearest = Math.max(0, Math.min(this.amounts.length - 1, nearest));
-
-    if (nearest !== this.selectedIndex) {
-      this.selectedIndex = nearest;
-    }
+    const rawIndex = localX / this.itemWidth;
+    const nearest = this.clampIndex(Math.round(rawIndex));
+    this.updateSelection(nearest);
   }
 
-  // make sure the selected item is visible in scroll area; center it optionally
-  private scrollToIndexIfNeeded(index: number, smooth = true) {
+  private clampIndex(i: number) {
+    return Math.max(0, Math.min((this.items?.length || 1) - 1, i || 0));
+  }
+
+  private updateSelection(index: number) {
+    if (index === this.selectedIndex) return;
+    this.selectedIndex = index;
+    this.indexChange.emit(index);
+    this.itemChange.emit(this.items[index]);
+    this.cdr.markForCheck();
+  }
+
+  selectIndex(index: number, center = true) {
+    const idx = this.clampIndex(index);
+    this.selectedIndex = idx;
+    this.indexChange.emit(idx);
+    this.itemChange.emit(this.items[idx]);
+    if (center && this.autoCenterOnSelect) this.scrollToIndexIfNeeded(idx, true);
+    this.cdr.markForCheck();
+  }
+
+  next() { this.selectIndex(this.selectedIndex + 1); }
+  prev() { this.selectIndex(this.selectedIndex - 1); }
+
+  scrollToIndexIfNeeded(index: number, smooth = true) {
     const wrapper = this.scrollWrap.nativeElement;
     const itemLeft = index * this.itemWidth;
     const itemRight = itemLeft + this.itemWidth;
@@ -93,5 +122,19 @@ export class SliderComponent implements AfterViewInit {
       const newScroll = Math.max(0, itemLeft - (wrapper.clientWidth / 2) + (this.itemWidth / 2));
       wrapper.scrollTo({ left: newScroll, behavior: smooth ? 'smooth' : 'auto' });
     }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKey(e: KeyboardEvent) {
+    if (!this.keyboard) return;
+    if (e.key === 'ArrowLeft') { this.prev(); e.preventDefault(); }
+    else if (e.key === 'ArrowRight') { this.next(); e.preventDefault(); }
+  }
+
+  labelFor(item: any) {
+    if (item == null) return '';
+    if (typeof item === 'object') return item.label ?? String(item.value);
+    if (typeof item === 'number') return item.toLocaleString();
+    return String(item);
   }
 }
