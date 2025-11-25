@@ -1,0 +1,31 @@
+<div class="amount-slider">
+  <div #scrollWrap class="amount-slider__scroll">
+    <div #trackWrap
+         class="amount-slider__track-wrap"
+         [style.width.px]="trackWidth"
+         (pointerdown)="onPointerDown($event)"
+         (pointermove)="onPointerMove($event)"
+         (pointerup)="onPointerUp($event)"
+         (click)="onTrackClick($event)">
+
+      <!-- custom track line -->
+      <div class="amount-slider__track-line"></div>
+
+      <!-- bubbles positioned using left px (index * itemWidth) -->
+      <div class="amount-slider__bubbles">
+        <div
+          *ngFor="let amt of amounts; let i = index"
+          class="amount-slider__bubble"
+          [class.amount-slider__bubble--active]="i === selectedIndex"
+          [style.left.px]="i * itemWidth"
+          [style.width.px]="itemWidth"
+        >
+          <div class="amount-slider__label">{{ amt | number:'1.0-0' }}</div>
+        </div>
+      </div>
+
+      <!-- custom thumb (rendered exactly at selected index) -->
+      <div class="amount-slider__thumb" [style.left.px]="selectedIndex * itemWidth + (itemWidth / 2)"></div>
+    </div>
+  </div>
+</div>

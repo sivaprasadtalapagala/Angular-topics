@@ -14,6 +14,13 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { UserCardComponent } from './user/user-card/user-card.component';
 import { CounterComponent } from './counter/counter.component';
+import { StoreModule } from '@ngrx/store';
+import { userReducer } from './state/reducers/user.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { UserListComponent } from './user-list/user-list.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SliderComponent } from './slider/slider.component';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -27,12 +34,18 @@ import { CounterComponent } from './counter/counter.component';
     FooterComponent,
     HomeComponent,
     UserCardComponent,
-    CounterComponent
+    CounterComponent,
+    UserListComponent,
+    SliderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    StoreModule.forRoot({userState: userReducer}, {}),
+    EffectsModule.forRoot([]),
+    BrowserAnimationsModule,
+    MatSliderModule   
   ],
   providers: [],
   bootstrap: [AppComponent]

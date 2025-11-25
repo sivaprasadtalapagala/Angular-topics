@@ -1,0 +1,105 @@
+.amount-slider {
+  width: 100%;
+  padding: 12px 0;
+}
+
+/* scroll container: allow horizontal scrolling with two-finger touchpad gestures */
+.amount-slider__scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x; /* prioritize horizontal panning */
+  width: 100%;
+  /* show horizontal scrollbar so user can drag if needed */
+}
+
+/* wide inner track */
+.amount-slider__track-wrap {
+  position: relative;
+  height: 80px;
+  box-sizing: border-box;
+  display: block;
+  padding: 18px 0; /* space for thumb and labels */
+}
+
+/* mat-slider stretches full width of the wide track */
+.amount-slider__control {
+  position: absolute;
+  top: 18px; /* adjust to center on track */
+  left: 0;
+  width: 100% !important;
+  margin: 0;
+  pointer-events: auto; /* keep slider interactions */
+  z-index: 10;
+}
+
+/* keep existing look — adapt as you like */
+.amount-slider__control .mdc-slider__track--inactive { background-color: #cfcfcf; opacity: 1; }
+.amount-slider__control .mdc-slider__track--active { background-color: #ff2d6d; }
+
+/* bubbles container uses absolute positioning; pointer-events none so scroll not blocked */
+.amount-slider__bubbles {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  pointer-events: none; /* don't block slider drag or scrolling */
+}
+
+/* each bubble occupies itemWidth px; center label under its slot */
+.amount-slider__bubble {
+  position: absolute;
+  top: 34px; /* adjust so label is below track */
+  transform: translateX(0);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* label centered inside its slot */
+.amount-slider__label {
+  display: inline-block;
+  width: 100%;
+  transform: translateY(0);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* highlight active bubble label */
+.amount-slider__bubble--active .amount-slider__label {
+  color: #ff2d6d;
+  font-weight: 700;
+}
+
+
+/* hide horizontal scrollbar but keep scrolling (touchpad, touch, programmatic) */
+.amount-slider__scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;   /* allow horizontal pan */
+  width: 100%;
+
+  /* Firefox */
+  scrollbar-width: none; /* hide in Firefox */
+
+  /* For webkit browsers (Chrome, Edge, Safari) */
+  &::-webkit-scrollbar {
+    height: 0;            /* removes horizontal scrollbar */
+    display: none;
+  }
+
+  /* optional: prevent showing a focus outline when scrolled element is focused */
+  &:focus {
+    outline: none;
+  }
+}
+
+
+.amount-slider__track-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;              /* thickness */
+  top: 34px;                /* vertical position */
+  background: #ff2d6d;      /* pink track fill */
+  z-index: 1;
+  border-radius: 2px;
+}
