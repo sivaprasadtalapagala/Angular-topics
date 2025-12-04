@@ -1,66 +1,33 @@
-:host { display: block; width: 100%; box-sizing: border-box; }
-
-.scroller-root { width: 100%; padding: 8px 0; box-sizing: border-box; }
-
-.scroller-scroll {
+mat-slider {
   width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-x;
 }
 
-/* hide scrollbar when configured */
-.scroller-scroll.hide-scrollbar { scrollbar-width: none; }
-.scroller-scroll.hide-scrollbar::-webkit-scrollbar { height: 0; display: none; }
-
-.scroller-track {
+.track-wrapper {
   position: relative;
-  height: 90px;
-  padding: 14px 0;
-  box-sizing: border-box;
-  user-select: none;
 }
 
-.scroller-track-line {
+.single-line-labels {
+  position: relative;
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.moving-value {
   position: absolute;
-  left: 0; right: 0;
-  top: 38px;
-  height: 3px;
-  background: #cfcfcf;
-  border-radius: 2px;
-  z-index: 1;
+  top: 0;
+  transform: translateX(-50%);
+  transition: left 0.05s linear;
+  font-weight: 700;
+  color: #000;
+  background: #e6ffe6;
 }
 
-.scroller-track-progress {
-  position: absolute;
-  left: 0;
-  top: 38px;
-  height: 3px;
-  background: #ff2d6d;
-  z-index: 2;
-  border-radius: 2px 0 0 2px;
-}
-
-.scroller-items { position: absolute; left: 0; right: 0; top: 0; height: 100%; pointer-events: none; z-index: 3; }
-
-.scroller-item { position: absolute; top: 20px; text-align: center; box-sizing: border-box; }
-.scroller-item__label { display: inline-block; width: 100%; font-size: 14px; color: #111; font-weight: 500; }
-.scroller-item--active .scroller-item__label { color: #ff2d6d; font-weight: 700; }
-
-.scroller-thumb {
-  position: absolute;
-  top: 34px;
-  width: 16px;
-  height: 16px;
-  margin-left: -8px;
-  border-radius: 50%;
-  background: #ff2d6d;
-  box-shadow: 0 0 0 6px rgba(255,45,109,0.08);
-  z-index: 4;
-  pointer-events: none;
-}
-
-@media (max-width: 420px) {
-  .scroller-track { height: 80px; }
-  .scroller-item__label { font-size: 13px; }
+/* ✅ Highlight when NOT selected */
+.active {
+  // background: #e6ffe6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
 }

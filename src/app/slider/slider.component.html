@@ -1,33 +1,35 @@
-<div class="scroller-root">
-  <div #scrollWrap
-       class="scroller-scroll"
-       [class.hide-scrollbar]="hideScrollbar"
-       tabindex="0"
-       aria-label="horizontal scroller">
+<div class="amount-slider">
 
-    <div #trackWrap
-         class="scroller-track"
-         [style.width.px]="trackWidth"
-         (pointerdown)="onPointerDown($event)"
-         (pointermove)="onPointerMove($event)"
-         (pointerup)="onPointerUp($event)"
-         (click)="onTrackClick($event)">
+  <div class="track-wrapper">
+    <mat-slider
+      [min]="min"
+      [max]="max"
+      [step]="step"
+      [value]="value"
+      (input)="onInput($event)">
+    </mat-slider>
+  </div>
 
-      <div class="scroller-track-line"></div>
-      <div class="scroller-track-progress"
-           [style.width.px]="(selectedIndex * itemWidth) + (itemWidth / 2)"></div>
+  <!-- ✅ SINGLE LINE FOR ALL THREE -->
+  <div class="single-line-labels">
 
-      <div class="scroller-items">
-        <div *ngFor="let it of items; let i = index"
-             class="scroller-item"
-             [class.scroller-item--active]="i === selectedIndex"
-             [style.left.px]="i * itemWidth"
-             [style.width.px]="itemWidth">
-          <div class="scroller-item__label">{{ labelFor(it) }}</div>
-        </div>
-      </div>
+    <!-- MIN -->
+    <span [ngClass]="{ active: value !== min }">
+      {{ prefix }}{{ min | number }}
+    </span>
 
-      <div class="scroller-thumb" [style.left.px]="selectedIndex * itemWidth + (itemWidth / 2)"></div>
-    </div>
+    <!-- MOVING SELECTED -->
+    <span
+      class="moving-value"
+      [style.left.%]="percent"
+      *ngIf="value !== min && value !== max">
+      {{ prefix }}{{ value | number }}
+    </span>
+
+    <!-- MAX -->
+    <span [ngClass]="{ active: value !== max }">
+      {{ prefix }}{{ max | number }}
+    </span>
+
   </div>
 </div>
